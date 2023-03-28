@@ -35,7 +35,7 @@ impl Color {
      * https://doc.rust-lang.org/std/primitive.u8.html
      */
     pub fn cross(c1: &Color, c2: &Color) -> Color {
-        let mut cross_r = c1.r + c2.r;
+        let mut cross_r: i32 = (c1.r + c2.r).into();
         if cross_r.checked_div(255) == Some(1){
             if cross_r % 255 > 0{
                 cross_r = cross_r % 255;
@@ -44,7 +44,8 @@ impl Color {
             cross_r = 255 - 1;
         }
         println!("{}", cross_r);
-        let mut cross_b = c1.b + c2.b;
+
+        let mut cross_b : i32 = (c1.b + c2.b).into();
         if cross_b.checked_div(255) == Some(1){
             if cross_b % 255 > 0{
                 cross_b = cross_b % 255;
@@ -52,7 +53,7 @@ impl Color {
         } else if cross_b.checked_div(255) > Some(1) {
             cross_b = 255 - 1;
         }
-        let mut cross_g = c1.g + c2.g;
+        let mut cross_g : i32 = (c1.g + c2.g).into();
         if cross_g.checked_div(255) == Some(1){
             if cross_g % 255 > 0{
                 cross_g = cross_g % 255;
@@ -60,6 +61,6 @@ impl Color {
         } else if cross_g.checked_div(255) > Some(1){
             cross_g = 255 - 1;
         }
-        Color::new(cross_r, cross_g, cross_b)
+        Color::new(cross_r.try_into().unwrap(), cross_g.try_into().unwrap(), cross_b.try_into().unwrap())
     }
 }

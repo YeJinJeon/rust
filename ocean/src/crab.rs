@@ -6,8 +6,7 @@ use crate::reef::Reef;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::ops::Deref;
-
-static PRINZ: &str = "Prinz";
+use std::borrow::Borrow;
 
 #[derive(Debug)]
 pub struct Crab {
@@ -74,7 +73,15 @@ impl Crab {
      * If all reefs are empty, or this crab has no reefs, return None.
      */
     fn catch_prey(&mut self) -> Option<(Box<dyn Prey>, usize)> {
-        unimplemented!();
+        let mut i = 0;
+        for r in self.reefs.iter(){
+            let data = Rc::clone(&r.unwrap());
+            if &data.population() > 0 {
+                return Some((data.borrow_mut().take_prey().unwrap(), i))
+            }
+            i += 1;
+        }
+        return None
     }
 
     /**
